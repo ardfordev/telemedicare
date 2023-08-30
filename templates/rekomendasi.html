@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+   
+    <title>Telemedicare</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+   
+    <!-- Favicons -->
+    <link href="{{ url_for('static', filename='img/icon.png') }}" rel="icon">
+    <link href="{{ url_for('static', filename='img/icon.png') }}" rel="apple-touch-icon">
+   
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+   
+    <!-- Vendor CSS Files -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor/fontawesome-free/css/all.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor/animate.css/animate.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor/bootstrap-icons/bootstrap-icons.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor/boxicons/css/boxicons.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor/glightbox/css/glightbox.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor/remixicon/remixicon.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor/swiper/swiper-bundle.min.css') }}">
+   
+    <!-- Template Main CSS File -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+
+
+    <!-- =======================================================
+    * Template Name: Medilab - v4.9.1
+    * Template URL: https://bootstrapmade.com/medilab-free-medical-bootstrap-theme/
+    * Author: BootstrapMade.com
+    * License: https://bootstrapmade.com/license/
+    ======================================================== -->
+</head>
+
+
+<body>
+    <!-- ======= Top Bar ======= -->
+    <div id="topbar" class="d-flex align-items-center fixed-top">
+        <div class="container d-flex justify-content-between">
+        </div>
+    </div>
+
+
+    <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top">
+        <div class="container d-flex align-items-center">
+            <h1 class="logo me-auto"><a href='/'>Telemedicicare</a></h1>
+
+
+            <nav id="navbar" class="navbar order-last order-lg-0">
+                <ul>
+                  <!--<li><a class="nav-link scrollto active" href="#hero">Beranda</a></li>
+                  <li><a class="nav-link scrollto" href="#about">Tentang Kami</a></li>
+                  <li><a class="nav-link scrollto" href="#departments">Departemen</a></li>-->
+                </ul>
+                <i class="bi bi-list mobile-nav-toggle"></i>
+            </nav><!-- .navbar -->
+        </div>
+    </header><!-- End Header -->
+
+
+    <!-- ======= Rekomendasi Section ======= -->
+    <br><br><br><br><br><br>
+    <section id="departments" class="departments">
+        <div class="container">
+            <div class="section-title">
+                <h2>Hasil Rekomendasi Spesialis</h2>
+                <!--<h3><div id="result">{{ prediction }}</div></h3>-->
+                <h3><div id="spesialis">{{ spesialis }}</div></h3>
+            </div>
+            <h1>Dokter Rekomendasi untuk Anda</h1>
+            <div class="row">
+                {% for dokter in rekomendasi_dokter %}
+                    <div class="col-sm-6 col-md-4 col-lg-3 mb-2">
+                        <div class="card-deck">
+                            <div class="card p-2 border-secondary mb-2">
+                                <div class="card-body p-1">
+                                    <h4 class="card-title text-center text-info">{{ dokter.nama_dokter }}</h4>
+                                    <h6 class="card-title text-center text-info">{{ dokter.gender_dokter }}</h6>
+                                    <h6 class="card-title text-center text-info">{{ dokter.spesialis }}</h6>
+                                    <!--<h5 class="card-text text-center text-danger"><i class="fas fa-rupiah-sign">{{ dokter.harga }}</i>&nbsp;&nbsp;</h5>-->
+                                </div>
+                                <div class="card-footer p-1">
+                                    <form action="" class="form-submit">
+                                        <div class="row p-1 justify-content-center">
+                                            <div class="col-md-6 py-1 pl-4">
+                                                <button class="btn btn-info btn-block addItemBtn" onclick="redirectToWhatsApp()">Hubungi melalui WhatsApp</button>
+                                            </div>
+                                        </div>
+                                        <!--<button class="btn btn-info btn-block addItemBtn">
+                                            <a href="{{ url_for('chat', dokter_id=dokter.id_dokter) }}">Chat</a>
+                                        </button><br>-->
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <!-- End Rekomendasi -->
+
+
+    <script>
+        function redirectToWhatsApp() {
+            var phoneNumber = "6283892593300";
+            var message = "Halo! Saya tertarik dengan layanan Anda.";
+
+
+            var url = "https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent(message);
+            window.open(url, '_blank');
+        }
+    </script>
+
+
+    <!-- Vendor JS Files -->
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/glightbox/js/glightbox.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/php-email-form/validate.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/purecounter/purecounter.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/swiper/swiper-bundle.min.js') }}"></script>
+
+
+    <!-- Template Main JS File -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+
+</body>
+</html>

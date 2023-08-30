@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat</title>
+    <script src="https://cdn.socket.io/4.2.0/socket.io.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .chat-container {
+            width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .chat-messages {
+            height: 300px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        .chat-input {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        .chat-input input[type="text"] {
+            flex: 1;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .chat-input button {
+            padding: 5px 10px;
+            margin-left: 10px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <h2>Chat</h2>
+        <h3>Select a Doctor:</h3>
+        <select id="doctorSelect">
+            {% for dokter in rekomendasi_dokter %}
+            <option value="{{ dokter.nama_dokter }}">{{ dokter.nama_dokter }}</option>
+            {% endfor %}
+        </select>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input">
+            <input type="text" id="messageInput" placeholder="Type your message...">
+            <button id="sendButton">Send</button>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            var socket = io();
+
+            // Handling received messages
+            socket.on('message', function(data) {
+                var message = data.message;
+                var messageElement = '<p><strong>Doctor:</strong> ' + message + '</p>';
+                $('#chatMessages').append(messageElement);
+                scrollToBottom();
+            });
+
+            // Handling send button click
+            $('#sendButton').click(function() {
+                var messageInput = $('#messageInput');
+                var message = messageInput.val();
+                if (message.trim() !== '') {
+                    var data = {
+                        message: message
+                    };
+                    socket.emit('message', data);
+                    messageInput.val('');
+                }
+            });
+
+            // Handling enter key press in the message input field
+            $('#messageInput').keypress(function(event) {
+                if (event.which === 13) {
+                    event.preventDefault();
+                    $('#sendButton').click();
+                }
+            });
+
+            // Scroll to the bottom of the chat messages
+            function scrollToBottom() {
+                var chatMessages = document.getElementById('chatMessages');
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        });
+    </script>
+</body>
+</html>
